@@ -2,13 +2,19 @@ module Rack
   module Cache
     class Monitor
       class Scheduler
-        def initialize(interval, logger: nil)
-          @interval = interval
-          @logger   = logger
+        def initialize(logger: nil)
+          @logger = logger
         end
 
-        def set_callback(&block)
+        def every(interval, &block)
+          @interval = interval
           @callback = block or raise ArgumentError, "no block given"
+          self
+        end
+
+        def on_error(&block)
+          @on_error = block or raise ArgumentError, "no block given"
+          self
         end
 
         def start
@@ -20,10 +26,12 @@ module Rack
                   @callback.call
                 rescue => e
                   @logger.error "Unexpected error: #{e.inspect}" if @logger
+                  @on_error.call if @on_error rescue nil
                   break
                 end
               end
             end
+            @thread.abort_on_exception = true
             true
           else
             false

@@ -26,9 +26,8 @@ module Rack
                               DEFAULT_INTERVAL
                             end
 
-        @scheduler = scheduler || Scheduler.new(interval_in_seconds, logger: @logger)
-        @scheduler.set_callback { report }
-        @scheduler.start
+        @scheduler = scheduler || Scheduler.new(logger: @logger)
+        @scheduler.every(interval_in_seconds){ report }.on_error{ @report_on_exit = false; stop!(false) }.start
         @logger.info "Started monitoring, reporting every #{interval_in_seconds} seconds"
 
         at_exit do
@@ -49,14 +48,6 @@ module Rack
         end
       end
 
-      def stop!
-        if running?
-          @logger.info "Gracefully stopping monitor..."
-          @scheduler.stop
-          @counter.close
-        end
-      end
-
       private
 
       def report
@@ -64,6 +55,14 @@ module Rack
         report = Report.new(counts)
 
         @reporter.call(report)
+      end
+
+      def stop!(stop_scheduler = true)
+        if running?
+          @logger.info "Gracefully stopping monitor..."
+          @scheduler.stop if stop_scheduler
+          @counter.close
+        end
       end
 
       # Should be observable by parent process as well as child processes, therefore
