@@ -13,7 +13,7 @@ module Rack
       DEFAULT_INTERVAL = 20 # seconds
       TRACE_HEADER = "X-Rack-Cache".freeze
 
-      def initialize(app, interval_in_seconds: nil, counter: nil, logger: nil, scheduler: nil, log_level: Logger::INFO, report_on_exit: true, &block)
+      def initialize(app, interval_in_seconds: nil, counter: nil, logger: nil, scheduler: nil, log_level: ::Logger::INFO, report_on_exit: true, &block)
         @app            = app
         @counter        = counter || ForkableCounter.new
         @logger         = logger || default_logger(log_level)
@@ -74,7 +74,7 @@ module Rack
       end
 
       def default_logger(level)
-        Logger.new(STDOUT).tap do |logger|
+        ::Logger.new(STDOUT).tap do |logger|
           logger.level = level
           logger.formatter = ->(severity, time, progname, msg) {
             "[#{$$}] [#{self.class}] #{msg}\n"
