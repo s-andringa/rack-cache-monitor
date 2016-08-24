@@ -53,7 +53,7 @@ end
 
 <dl>
     <dt><tt>:interval_in_seconds</tt></dt>
-    <dd>Stats are flushed and reported on this interval. In seconds. Default is 30.</dd>
+    <dd>Stats are flushed and reported on this interval. In seconds. Default is 20.</dd>
 
     <dt><tt>:log_level</tt></dt>
     <dd>Log level of the default logger.</dd>
