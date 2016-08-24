@@ -1,7 +1,7 @@
 # Rack::Cache::Monitor
 
-The rack-cache-monitor middleware lets you monitor rack-cache and reports related stats, such as the number of fresh hits, passes, or its hitrate. 
-Behind the scenes it simply counts `Rack::Cache` traces and yields its results to a user defined _reporter_ on a configurable interval.
+The `Rack::Cache::Monitor` middleware lets you monitor `Rack::Cache` and reports related stats, such as the number of fresh hits, passes, or its hitrate. 
+Behind the scenes it simply counts `Rack::Cache` traces from the `X-Rack-Cache` header and yields its results to a user defined _reporter_ on a configurable interval.
 It is designed to work in the context of threaded and multi-process web servers.
 
 ## Installation
