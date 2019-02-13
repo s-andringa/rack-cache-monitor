@@ -54,13 +54,10 @@ end
 <dl>
     <dt><tt>:interval_in_seconds</tt></dt>
     <dd>Stats are flushed and reported on this interval. In seconds. Default is 20.</dd>
-
     <dt><tt>:log_level</tt></dt>
     <dd>Log level of the default logger.</dd>
-
     <dt><tt>:logger</tt></dt>
     <dd>Custom logger object. The default logger writes to <tt>STDOUT</tt>.</dd>
-
     <dt><tt>:report_on_exit</tt></dt>
     <dd>Flush and report one more time before the program / web server exits. Default is <tt>true</tt>.</dd>
 </dl>
